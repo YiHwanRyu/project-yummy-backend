@@ -1,6 +1,7 @@
 package com.inno.yummy.entity;
 
 import com.inno.yummy.dto.CommentRequestDto;
+import com.inno.yummy.dto.UpdateCommentRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,5 +44,9 @@ public class Comment extends Timestamped{
 
     public void connectPost(Post post) {
         this.post = post;
+    }
+
+    public void updateComment(UpdateCommentRequestDto commentRequestDto) {
+        this.content = commentRequestDto.getContent();
     }
 }
