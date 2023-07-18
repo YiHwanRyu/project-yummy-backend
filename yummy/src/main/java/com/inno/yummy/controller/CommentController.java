@@ -14,17 +14,17 @@ import org.springframework.web.bind.annotation.*;
 public class CommentController {
     private final CommentService commentService;
     @PostMapping("/comments")
-    public MessageResponseDto createComments(@RequestBody CommentRequestDto commentRequestDto, HttpServletRequest request) {
+    public MessageResponseDto createComment(@RequestBody CommentRequestDto commentRequestDto, HttpServletRequest request) {
         return commentService.createComment(commentRequestDto, request.getAttribute("username").toString());
     }
 
     @PutMapping("/comments/{commentId}")
-    public MessageResponseDto updateComments(@PathVariable Long commentId, @RequestBody UpdateCommentRequestDto commentRequestDto, HttpServletRequest request) {
+    public MessageResponseDto updateComment(@PathVariable Long commentId, @RequestBody UpdateCommentRequestDto commentRequestDto, HttpServletRequest request) {
         return commentService.updateComment(commentId, commentRequestDto, request.getAttribute("username").toString());
     }
 
     @DeleteMapping("/comments/{commentId}")
-    public MessageResponseDto deleteComments(@PathVariable Long commentId, HttpServletRequest request ){
+    public MessageResponseDto deleteComment(@PathVariable Long commentId, HttpServletRequest request ){
         return commentService.deleteComment(commentId, request.getAttribute("username").toString());
     }
 }
