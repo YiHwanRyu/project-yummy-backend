@@ -1,5 +1,6 @@
 package com.inno.yummy.entity;
 
+import com.inno.yummy.dto.PostRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,9 @@ public class Post extends Timestamped{
     private String content;
 
     @Column(nullable = false)
+    private String imgurl;
+
+    @Column(nullable = false)
     private String username;
 
     @Column(nullable = false)
@@ -46,4 +50,27 @@ public class Post extends Timestamped{
     private List<Comment> commentList = new ArrayList<>();
 
 
+    public Post(PostRequestDto postRequestDto, String username, String name) {
+        this.shopname = postRequestDto.getShopname();
+        this.content = postRequestDto.getContent();
+        this.username = username;
+        this.name = name;
+        this.sort = postRequestDto.getSort();
+        this.region = postRequestDto.getRegion();
+        this.address = postRequestDto.getAddress();
+        this.imgurl = postRequestDto.getImgurl();
+    }
+
+    public void updatePost(PostRequestDto postRequestDto) {
+        this.shopname = postRequestDto.getShopname();
+        this.content = postRequestDto.getContent();
+        this.sort = postRequestDto.getSort();
+        this.region = postRequestDto.getRegion();
+        this.address = postRequestDto.getAddress();
+        this.imgurl = postRequestDto.getImgurl();
+    }
+
+    public void connectUser(User user) {
+        this.user = user;
+    }
 }

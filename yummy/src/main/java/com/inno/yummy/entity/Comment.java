@@ -1,19 +1,25 @@
 package com.inno.yummy.entity;
 
+import com.inno.yummy.dto.CommentRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
 @Getter
 @Table(name = "comments")
+@NoArgsConstructor
 public class Comment extends Timestamped{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String username;
 
     @Column(nullable = false)
@@ -26,12 +32,16 @@ public class Comment extends Timestamped{
     @JoinColumn(name = "post_id")
     private Post post;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @OneToMany(mappedBy = "comment")
+    private List<UserComment> userCommentList = new ArrayList<>();
 
+    public Comment(CommentRequestDto commentRequestDto, String username, String name) {
+        this.username = username;
+        this.name = name;
+        this.content = commentRequestDto.getContent();
+    }
 
-
-
-
+    public void connectPost(Post post) {
+        this.post = post;
+    }
 }

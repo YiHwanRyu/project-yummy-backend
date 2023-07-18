@@ -32,8 +32,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Post> postList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private List<Comment> commentList = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<UserComment> userCommentList = new ArrayList<>();
 
     public User(String username, String name, String email, String password) {
         this.username = username;
