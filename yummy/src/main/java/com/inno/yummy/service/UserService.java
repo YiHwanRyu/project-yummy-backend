@@ -9,7 +9,9 @@ import com.inno.yummy.jwt.JwtUtil;
 import com.inno.yummy.repository.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -48,7 +50,7 @@ public class UserService {
     }
 
     // 로그인
-    public MessageResponseDto loginUser(LoginRequestDto loginRequestDto, HttpServletResponse response) {
+    public ResponseEntity<MessageResponseDto> loginUser(LoginRequestDto loginRequestDto, HttpServletResponse response) {
         // 아이디 확인
         User user = userRepository.findByUsername(loginRequestDto.getUsername()).orElseThrow(
                 () -> new IllegalArgumentException("회원을 찾을 수 없습니다.")
@@ -61,9 +63,10 @@ public class UserService {
 
         //JWT 생성
         String token = jwtUtil.createToken(user.getUsername());
-        jwtUtil.addJwtToCookie(token, response);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(JwtUtil.AUTHORIZATION_HEADER, token);
 
-        return new MessageResponseDto(HttpStatus.OK.toString(), true);
+        return new ResponseEntity<>(new MessageResponseDto(HttpStatus.OK.toString(), true), headers, HttpStatus.OK);
     }
 
 

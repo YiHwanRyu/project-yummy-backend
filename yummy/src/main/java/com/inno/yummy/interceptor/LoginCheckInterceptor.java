@@ -21,13 +21,15 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         if(request.getMethod().equals("GET") && handlerMethod.getMethod().getName().equals("getHomePosts")) {
             return true;
         }
-
         if(request.getMethod().equals("GET") && handlerMethod.getMethod().getName().equals("getHomePostsWant")) {
+            return true;
+        }
+        if(request.getMethod().equals("GET") && handlerMethod.getMethod().getName().equals("getPost")) {
             return true;
         }
 
         // 토큰 정제
-        String tokenValue = jwtUtil.getTokenFromRequest(request);
+        String tokenValue = request.getHeader(JwtUtil.AUTHORIZATION_HEADER);
         String token = jwtUtil.substringToken(tokenValue);
 
         // 토큰 검증
