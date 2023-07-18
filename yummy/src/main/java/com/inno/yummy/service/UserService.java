@@ -1,11 +1,10 @@
 package com.inno.yummy.service;
 
-import com.inno.yummy.dto.CheckUsernameRequestDto;
-import com.inno.yummy.dto.LoginRequestDto;
-import com.inno.yummy.dto.MessageResponseDto;
-import com.inno.yummy.dto.SignupRequestDto;
+import com.inno.yummy.dto.*;
 import com.inno.yummy.entity.User;
 import com.inno.yummy.jwt.JwtUtil;
+import com.inno.yummy.repository.CommentRepository;
+import com.inno.yummy.repository.PostRepository;
 import com.inno.yummy.repository.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +22,8 @@ public class UserService {
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
 
     // 아이디 중복 확인
     public MessageResponseDto checkUsername(CheckUsernameRequestDto checkUsernameRequestDto) {
@@ -69,5 +70,11 @@ public class UserService {
         return new ResponseEntity<>(new MessageResponseDto(HttpStatus.OK.toString(), true), headers, HttpStatus.OK);
     }
 
-
+    // 마이페이지 조회
+    public MypageResponseDto getMypage(String username) {
+        MypageResponseDto mypageResponseDto = new MypageResponseDto();
+        mypageResponseDto.setPostList(postRepository.findAllByUsername(username).stream().map(HomeResponseDto::new).toList());
+        mypageResponseDto.setCommentList(commentRepository.findAllByUsername(username).stream().map(CommentResponseDto::new).toList());
+        return mypageResponseDto;
+    }
 }

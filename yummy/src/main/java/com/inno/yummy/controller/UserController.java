@@ -1,39 +1,40 @@
 package com.inno.yummy.controller;
 
-import com.inno.yummy.dto.CheckUsernameRequestDto;
-import com.inno.yummy.dto.LoginRequestDto;
-import com.inno.yummy.dto.MessageResponseDto;
-import com.inno.yummy.dto.SignupRequestDto;
+import com.inno.yummy.dto.*;
 import com.inno.yummy.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/api/auth")
+@RequestMapping("/api")
 @RestController
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/check")
+    @PostMapping("/auth/check")
     public MessageResponseDto checkUsername(@RequestBody CheckUsernameRequestDto checkUsernameRequestDto) {
         return userService.checkUsername(checkUsernameRequestDto);
     }
 
-    @PostMapping("/sign-up")
+    @PostMapping("/auth/sign-up")
     public MessageResponseDto createUser(@RequestBody @Valid SignupRequestDto signupRequestDto) {
         return userService.createUser(signupRequestDto);
     }
 
-    @PostMapping("/login")
+    @PostMapping("/auth/login")
     public ResponseEntity<MessageResponseDto> loginUser(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response) {
         return userService.loginUser(loginRequestDto, response);
     }
+
+    @GetMapping("/mypage")
+    public MypageResponseDto getMypage(HttpServletRequest request) {
+        return userService.getMypage(request.getAttribute("username").toString());
+    }
+
 
 }

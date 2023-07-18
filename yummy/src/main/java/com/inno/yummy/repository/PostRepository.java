@@ -9,4 +9,5 @@ public interface PostRepository extends JpaRepository<Post, Long> {
      List<Post> findAllByRegion(String region);
      List<Post> findAllBySort(String sort);
      List<Post> findAllByRegionAndSort(String region, String sort);
+     List<Post> findAllByUsername(String username);
 }

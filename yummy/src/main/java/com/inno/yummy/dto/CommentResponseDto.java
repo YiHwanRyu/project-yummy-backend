@@ -12,7 +12,7 @@ public class CommentResponseDto {
     private String username;
     private LocalDateTime modifiedAt;
 
-    CommentResponseDto(Comment comment) {
+    public CommentResponseDto(Comment comment) {
         this.id = comment.getId();
         this.content = comment.getContent();
         this.username = comment.getUsername();

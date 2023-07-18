@@ -9,11 +9,13 @@ public class HomeResponseDto {
     private String shopname;
     private String region;
     private String sort;
+    private String imgurl;
 
     public HomeResponseDto(Post post) {
         this.id = post.getId();
         this.shopname = post.getShopname();
         this.region = post.getRegion();
         this.sort = post.getSort();
+        this.imgurl = post.getImgurl();
     }
 }
