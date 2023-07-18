@@ -11,6 +11,7 @@ import com.inno.yummy.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -57,6 +58,7 @@ public class PostService {
         return new PostResponseDto(post);
     }
 
+    @Transactional
     public MessageResponseDto updatePost(Long postId, PostRequestDto postRequestDto, String username) {
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 게시물입니다.")
@@ -73,6 +75,7 @@ public class PostService {
         return new MessageResponseDto(HttpStatus.OK.toString(), true);
     }
 
+    @Transactional
     public MessageResponseDto deletePost(Long postId, String username) {
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 게시물입니다.")

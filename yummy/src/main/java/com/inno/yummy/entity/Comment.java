@@ -32,7 +32,7 @@ public class Comment extends Timestamped{
     @JoinColumn(name = "post_id")
     private Post post;
 
-    @OneToMany(mappedBy = "comment")
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE)
     private List<UserComment> userCommentList = new ArrayList<>();
 
     public Comment(CommentRequestDto commentRequestDto, String username, String name) {
