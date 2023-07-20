@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @Getter
 public class SignupRequestDto {
-    // 소문자 or 영문 총 3~10자
+    // 숫자 or 영문 총 3~10자
     @Pattern(regexp = "[a-z0-9]{3,10}")
     private String username;
 
