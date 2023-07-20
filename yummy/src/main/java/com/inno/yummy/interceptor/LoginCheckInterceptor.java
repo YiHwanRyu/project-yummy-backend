@@ -6,6 +6,7 @@ import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -15,9 +16,13 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
     private final UserRepository userRepository;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if(CorsUtils.isPreFlightRequest(request)) { //preflight 요청일때는 허용하도록
+            return true;
+        }
         // Home에서의 조회는 통과시킴(조회)
         // request에서 url가져와서 비교가능
         HandlerMethod handlerMethod = (HandlerMethod) handler;
+
         if(request.getMethod().equals("GET") && handlerMethod.getMethod().getName().equals("getHomePosts")) {
             return true;
         }
@@ -27,7 +32,6 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         if(request.getMethod().equals("GET") && handlerMethod.getMethod().getName().equals("getPost")) {
             return true;
         }
-
         // 토큰 정제
         String tokenValue = request.getHeader(JwtUtil.AUTHORIZATION_HEADER);
         String token = jwtUtil.substringToken(tokenValue);
