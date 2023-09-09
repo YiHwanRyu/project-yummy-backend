@@ -1,6 +1,7 @@
 package com.inno.yummy.dto;
 
 import com.inno.yummy.entity.Post;
+
 import lombok.Getter;
 
 @Getter

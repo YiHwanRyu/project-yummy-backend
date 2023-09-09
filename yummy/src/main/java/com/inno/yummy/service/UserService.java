@@ -27,17 +27,21 @@ public class UserService {
 
     // 아이디 중복 확인
     public MessageResponseDto checkUsername(CheckUsernameRequestDto checkUsernameRequestDto) {
+
         if(userRepository.findByUsername(checkUsernameRequestDto.getUsername()).isPresent()) {
             throw new IllegalArgumentException("이미 가입된 아이디입니다.");
         }
+
         return new MessageResponseDto(HttpStatus.OK.toString(), true);
     }
 
     // 회원가입
     public MessageResponseDto createUser(SignupRequestDto signupRequestDto) {
+
         if(userRepository.findByUsername(signupRequestDto.getUsername()).isPresent()) {
             throw new IllegalArgumentException("이미 가입된 아이디입니다.");
         }
+
         if(userRepository.findByEmail(signupRequestDto.getEmail()).isPresent()) {
             throw new IllegalArgumentException("이미 가입된 이메일입니다.");
         }
@@ -52,6 +56,7 @@ public class UserService {
 
     // 로그인
     public ResponseEntity<MessageResponseDto> loginUser(LoginRequestDto loginRequestDto, HttpServletResponse response) {
+
         // 아이디 확인
         User user = userRepository.findByUsername(loginRequestDto.getUsername()).orElseThrow(
                 () -> new IllegalArgumentException("회원을 찾을 수 없습니다.")
@@ -72,9 +77,13 @@ public class UserService {
 
     // 마이페이지 조회
     public MypageResponseDto getMypage(String username) {
+
         MypageResponseDto mypageResponseDto = new MypageResponseDto();
+
         mypageResponseDto.setPostList(postRepository.findAllByUsername(username).stream().map(HomeResponseDto::new).toList());
+
         mypageResponseDto.setCommentList(commentRepository.findAllByUsername(username).stream().map(CommentResponseDto::new).toList());
+
         return mypageResponseDto;
     }
 }
