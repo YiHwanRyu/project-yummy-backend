@@ -20,7 +20,7 @@ public class PostResponseDto {
     private LocalDateTime modifiedAt;
     private List<CommentResponseDto> commentList;
 
-    public PostResponseDto(Post post) {
+    public PostResponseDto(Post post, List<CommentResponseDto> commentList) {
         this.id = post.getId();
         this.shopname = post.getShopname();
         this.region = post.getRegion();
@@ -31,7 +31,7 @@ public class PostResponseDto {
         this.imgurl = post.getImgurl();
         this.createdAt = post.getCreatedAt();
         this.modifiedAt = post.getModifiedAt();
-        this.commentList = post.getCommentList().stream().map(CommentResponseDto::new).toList();
+        this.commentList = commentList;
 
     }
 }
