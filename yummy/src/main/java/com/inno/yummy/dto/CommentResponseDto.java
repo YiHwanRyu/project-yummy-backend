@@ -1,9 +1,10 @@
 package com.inno.yummy.dto;
 
-import com.inno.yummy.entity.Comment;
-import lombok.Getter;
-
 import java.time.LocalDateTime;
+
+import com.inno.yummy.entity.Comment;
+
+import lombok.Getter;
 
 @Getter
 public class CommentResponseDto {

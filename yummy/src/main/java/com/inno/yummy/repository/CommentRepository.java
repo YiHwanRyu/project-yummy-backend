@@ -1,12 +1,14 @@
 package com.inno.yummy.repository;
 
-import com.inno.yummy.entity.Comment;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Arrays;
-import java.util.List;
+import com.inno.yummy.entity.Comment;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     List<Comment> findAllByUsername(String username);
+
+    List<Comment> findAllByPostId(Long postId);
 }
